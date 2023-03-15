@@ -4,15 +4,23 @@ import {
   QueryClientProvider,
   useQuery,
 } from '@tanstack/react-query';
+
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import theme from './theme';
+
 import { getPokemonList, getPokemonDetails } from './api/api';
 
 function App() {
   const queryClient = new QueryClient();
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Test />
-    </QueryClientProvider>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <QueryClientProvider client={queryClient}>
+        <Test />
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 }
 
