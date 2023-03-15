@@ -27,7 +27,7 @@ function PokemonPagination(props: PokemonPaginationProps) {
     } else {
       setIsNextDisabled(false);
     }
-  }, [currentPage]);
+  }, [currentPage, pageCount]);
 
   const handlePrevClick = () => {
     onPageChange(currentPage - 1);
