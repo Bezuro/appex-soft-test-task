@@ -1,39 +1,68 @@
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
-import { getPokemonList, getPokemonDetails } from '../../api/api';
+import { getPokemonList } from '../../api/api';
 
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+
+import PokemonList from '../PokemonList';
+import PokemonPagination from '../PokemonPagination';
+import PokemonDetails from '../PokemonDetails';
+
+import { POKEMON_PER_PAGE } from '../../constants';
 
 function Home() {
-  const {
-    data: listData,
-    isLoading: listIsLoading,
-    isError: listIsError,
-  } = useQuery(['pokemonList', 0], () => getPokemonList(0 * 12));
+  const [url, setUrl] = useState('');
+  const [isPokemonSelected, setIsPokemonSelected] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const onItemClick = (url: string) => {
+    setUrl(url);
+    setIsPokemonSelected(true);
+  };
 
   const { data, isLoading, isError } = useQuery(
-    ['pokemonDetails', 'https://pokeapi.co/api/v2/pokemon/1/'],
-    () => getPokemonDetails('https://pokeapi.co/api/v2/pokemon/1/')
+    ['pokemonList', currentPage],
+    () => getPokemonList(currentPage * POKEMON_PER_PAGE)
   );
 
-  if (listData) {
-    console.log('listData :>> ', listData);
+  if (isLoading) {
+    return <Typography>Loading...</Typography>;
   }
-
-  if (data) {
-    console.log('data :>> ', data);
+  if (isError) {
+    return <Typography>Error!</Typography>;
   }
 
   return (
     <Container maxWidth="xl">
       <Grid mt={4} container spacing={2}>
         <Grid item xs={6}>
-          <Paper>qwe</Paper>
+          <Paper sx={{ p: 3, minHeight: '700px' }}>
+            <PokemonList pokemons={data.results} onItemClick={onItemClick} />
+
+            <Box mt={2}>
+              <PokemonPagination
+                currentPage={currentPage}
+                pageCount={Math.ceil(data.count / POKEMON_PER_PAGE)}
+                onPageChange={handlePageChange}
+              />
+            </Box>
+          </Paper>
         </Grid>
         <Grid item xs={6}>
-          <Paper>asd</Paper>
+          {isPokemonSelected && (
+            <Paper sx={{ p: 3, minHeight: '700px' }}>
+              <PokemonDetails url={url} />
+            </Paper>
+          )}
         </Grid>
       </Grid>
     </Container>
