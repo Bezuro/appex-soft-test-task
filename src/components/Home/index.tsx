@@ -19,6 +19,7 @@ function Home() {
   const [url, setUrl] = useState('');
   const [isPokemonSelected, setIsPokemonSelected] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
+  const [pageCount, setPageCount] = useState(1);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -29,29 +30,37 @@ function Home() {
     setIsPokemonSelected(true);
   };
 
-  const { data, isLoading, isError } = useQuery(
-    ['pokemonList', currentPage],
-    () => getPokemonList(currentPage * POKEMON_PER_PAGE)
-  );
+  const onDataLoaded = (pageCount: number) => {
+    setPageCount(pageCount);
+  };
 
-  if (isLoading) {
-    return <Typography>Loading...</Typography>;
-  }
-  if (isError) {
-    return <Typography>Error!</Typography>;
-  }
+  // const { data, isLoading, isError } = useQuery(
+  //   ['pokemonList', currentPage],
+  //   () => getPokemonList(currentPage * POKEMON_PER_PAGE)
+  // );
+
+  // if (isLoading) {
+  //   return <Typography>Loading...</Typography>;
+  // }
+  // if (isError) {
+  //   return <Typography>Error!</Typography>;
+  // }
 
   return (
     <Container maxWidth="xl">
       <Grid mt={4} container spacing={2}>
         <Grid item xs={6}>
           <Paper sx={{ p: 3, minHeight: '700px' }}>
-            <PokemonList pokemons={data.results} onItemClick={onItemClick} />
+            <PokemonList
+              currentPage={currentPage}
+              onItemClick={onItemClick}
+              onDataLoaded={onDataLoaded}
+            />
 
             <Box mt={2}>
               <PokemonPagination
                 currentPage={currentPage}
-                pageCount={Math.ceil(data.count / POKEMON_PER_PAGE)}
+                pageCount={pageCount} // Math.ceil(data.count / POKEMON_PER_PAGE)
                 onPageChange={handlePageChange}
               />
             </Box>
