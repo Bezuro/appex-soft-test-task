@@ -1,1 +1,1 @@
-export { LIMIT } from './api';
+export { POKEMON_PER_PAGE } from './api';

@@ -1,1 +1,1 @@
-export const LIMIT = 12;
+export const POKEMON_PER_PAGE = 12;
