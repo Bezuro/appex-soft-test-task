@@ -3,9 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getPokemonDetails } from '../../api/api';
 
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Pokemon } from '../../types/pokemon';
 
 type PokemonDetailsProps = {
   url: string;

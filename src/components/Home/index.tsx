@@ -1,19 +1,13 @@
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-
-import { getPokemonList } from '../../api/api';
 
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 import PokemonList from '../PokemonList';
 import PokemonPagination from '../PokemonPagination';
 import PokemonDetails from '../PokemonDetails';
-
-import { POKEMON_PER_PAGE } from '../../constants';
 
 function Home() {
   const [url, setUrl] = useState('');
@@ -34,18 +28,6 @@ function Home() {
     setPageCount(pageCount);
   };
 
-  // const { data, isLoading, isError } = useQuery(
-  //   ['pokemonList', currentPage],
-  //   () => getPokemonList(currentPage * POKEMON_PER_PAGE)
-  // );
-
-  // if (isLoading) {
-  //   return <Typography>Loading...</Typography>;
-  // }
-  // if (isError) {
-  //   return <Typography>Error!</Typography>;
-  // }
-
   return (
     <Container maxWidth="xl">
       <Grid mt={4} container spacing={2}>
@@ -60,7 +42,7 @@ function Home() {
             <Box mt={2}>
               <PokemonPagination
                 currentPage={currentPage}
-                pageCount={pageCount} // Math.ceil(data.count / POKEMON_PER_PAGE)
+                pageCount={pageCount}
                 onPageChange={handlePageChange}
               />
             </Box>

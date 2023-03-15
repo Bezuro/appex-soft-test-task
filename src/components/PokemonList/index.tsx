@@ -8,7 +8,6 @@ import Typography from '@mui/material/Typography';
 
 type PokemonListProps = {
   currentPage: number;
-  // pokemons?: { name: string; url: string }[];
   onItemClick: (url: string) => void;
   onDataLoaded: (pageCount: number) => void;
 };
